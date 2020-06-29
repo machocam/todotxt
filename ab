@@ -1,0 +1,20 @@
+#!/bin/bash
+
+action=$1
+shift
+
+[ "$action" = "usage" ] && {
+  echo "  Add and prioritize B:"
+  curcmd=`basename $0`
+  echo "    $curcmd \"THING I NEED TO DO +project @context\""
+  echo "      Add an item and prioritize it B in one step"
+  echo ""
+  exit
+}
+
+if "$TODO_SH" command add "$@"; then
+    # figure out the line of what we just added, and prioritize it B
+    line=`sed -n '$ =' "$TODO_FILE"`
+    echo "$line"
+    "$TODO_SH" command pri "$line" B 
+fi
